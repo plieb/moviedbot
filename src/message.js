@@ -53,6 +53,7 @@ const startSearchFlow = (message, conversation) => {
     return movieApi.discoverMovie(genre.value)
       .then(carouselle => {
         console.log('IiiiiiiiIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
+        console.log(carouselle)
          return message.reply([carouselle])
       })
       .catch(err => {
