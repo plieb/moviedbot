@@ -4,7 +4,7 @@
   "description": "A bot built with Recast.AI",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --exec babel-node -- src/server.js",
+    "start": "babel src -d lib && node lib/server.js",
     "prod": "node lib/server.js",
     "lint": "eslint src/",
     "build": "babel src -d lib"
