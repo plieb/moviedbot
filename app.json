@@ -17,10 +17,5 @@
 			"value":"",
 			"required":false
 		},
-		"PORT": {
-			"description": "Your default port",
-			"value":"",
-			"required":false
-		}
 	}
 }
