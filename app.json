@@ -2,12 +2,12 @@
 	name": "Movie Bot with The Movie DB & Recast.AI",
 	"description": "Movie bot",
 	"env": {
-		"RE_BOT_TOKEN": {
+		"REQUEST_TOKEN": {
 			"description": "Recast bot token",
 			"value":"",
 			"required":false
 		},
-		"MOVIE_DB_TOKEN": {
+		"MOVIEDB_TOKEN": {
 			"description": "Your MovieDB API access token",
 			"value":"",
 			"required":false
