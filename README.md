@@ -76,6 +76,11 @@ Manage the conversation | [The Recast.AI SDK](https://github.com/RecastAI/SDK-No
 
 ## How your code will be deployed?
 
+1. Make sure you are logged in to the [Heroku Dashboard](https://dashboard.heroku.com/)
+1. Click the button below to deploy the Messenger bot on Heroku:
+
+    [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+    
 To host your bot and deploy your code, create a repository on Github, and push this code on it.
 Connect your github account on Recast:
 
