@@ -1,5 +1,5 @@
 {
-	name": "Movie bot with The Movie DB & Recast.AI",
+	name": "Movie Bot with The Movie DB & Recast.AI",
 	"description": "Movie bot",
 	"env": {
 		"RE_BOT_TOKEN": {
