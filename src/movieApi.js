@@ -46,8 +46,7 @@ const apiResultToCarousselle = (response) => {
 			title: 'View More'
 		}],
 	}))
-	console.log('End of API results')
-	console.log(cards.slice(0, 10))
+
 	return {
 		type: 'carouselle',
 		content: cards.slice(0, 10),

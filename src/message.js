@@ -51,7 +51,12 @@ const startSearchFlow = (message, conversation) => {
   // location / country / language
   if (genre) {
     return movieApi.discoverMovie(genre.value)
-      .then(carouselle => message.reply([carouselle]))
+    console.log('***********************************')
+      .then(carouselle => message.reply([carouselle])
+        .catch(err => {
+          console.error('Error while sending message to channel', err)
+        })
+      )
   } else {
     console.log('hehe')
     return message.reply([{ type: 'text', content: 'Give me a genre !' }])
