@@ -4,6 +4,7 @@
  */
 
 const recastai = require('recastai')
+const movieApi = require('./movieApi.js')
 
 // This function is the core of the bot behaviour
 const replyMessage = (message) => {
@@ -20,7 +21,7 @@ const replyMessage = (message) => {
   // Call Recast.AI SDK, through /converse route
   request.converseText(text, { conversationToken: senderId })
     .then(result => {
-      if (result.action) {
+      if (result.action && result.action.slug !== 'discover') {
         console.log('The conversation action is: ', result.action.slug)
         // If there is not any message return by Recast.AI for this current conversation
         if (!result.replies.length) {
@@ -31,15 +32,30 @@ const replyMessage = (message) => {
         }
 
         // Send all replies
-        message.reply()
+        return message.reply()
           .catch(err => {
             console.error('Error while sending message to channel', err)
           })
       }
+      return startSearchFlow(message, result);
     })
     .catch(err => {
       console.error('Error while sending message to Recast.AI', err)
     })
+}
+
+const startSearchFlow = (message, conversation) => {
+  console.log('Im in search flow!')
+  const genre = conversation.getMemory('genre')
+  // annee 
+  // location / country / language
+  if (genre) {
+    return movieApi.discoverMovie(genre.value)
+      .then(carouselle => message.reply([carouselle]))
+  } else {
+    console.log('hehe')
+    return message.reply([{ type: 'text', content: 'Give me a genre !' }])
+  }
 }
 
 module.exports = replyMessage
