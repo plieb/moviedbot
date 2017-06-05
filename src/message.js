@@ -26,6 +26,7 @@ const replyMessage = (message) => {
 
         if (conversation.action === 'greetings') {
           conversation.resetMemory()
+            .then(() => console.log('Memory has been reset'))
         }
         console.log('The conversation action is: ', conversation.action.slug)
         // If there is not any message return by Recast.AI for this current conversation
