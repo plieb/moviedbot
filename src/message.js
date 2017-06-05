@@ -93,7 +93,7 @@ const startSearchFlow = (message, conversation) => {
     return message.reply([{ type: 'text', content: 'What year of release?' }])
   }
   if (!nationality && !language) {
-    return message.reply([{ type: 'text', content: 'What nationality?' }])
+    return message.reply([{ type: 'text', content: 'What language?' }])
   }
 
   const genreId = getGenreId(genre.value)
