@@ -60,17 +60,40 @@ const startSearchFlow = (message, conversation) => {
   const language = conversation.getMemory('language')
 
   if (!movie && !tv) {
-    return message.reply([{ type: 'text', content: 'Give me a medium !' }])
+    return message.reply([{
+      type: 'quickReplies',
+      content: {
+        title: 'Do you want to watch a movie or a tv show?',
+        buttons: [
+          { title: 'A movie', value: 'A movie' },
+          { title: 'A tv show', value: 'A tv show' },
+        ],
+      },
+    }])
   }
 
   if (!genre) {
-    return message.reply([{ type: 'text', content: 'Give me a genre !' }])
+    return message.reply([{
+      type: 'quickReplies',
+      content: {
+        title: 'What genre of movies do you like?',
+        buttons: [
+          { title: 'Action', value: 'Action' },
+          { title: 'Comedy', value: 'Comedy' },
+          { title: 'Drama', value: 'Drama' },
+          { title: 'Family', value: 'Family' },
+          { title: 'History', value: 'History' },
+          { title: 'Horror', value: 'Horror' },
+          { title: 'Romance', value: 'Romance' },
+        ],
+      },
+    }])
   }
   if (!date) {
-    return message.reply([{ type: 'text', content: 'Give me a date !' }])
+    return message.reply([{ type: 'text', content: 'What year of release?' }])
   }
   if (!nationality) {
-    return message.reply([{ type: 'text', content: 'Give me a nationality !' }])
+    return message.reply([{ type: 'text', content: 'What nationality?' }])
   }
 
   const genreId = getGenreId(genre.value)
