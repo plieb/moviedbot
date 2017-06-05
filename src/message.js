@@ -92,7 +92,7 @@ const startSearchFlow = (message, conversation) => {
   if (!date) {
     return message.reply([{ type: 'text', content: 'What year of release?' }])
   }
-  if (!nationality) {
+  if (!nationality && !language) {
     return message.reply([{ type: 'text', content: 'What nationality?' }])
   }
 
