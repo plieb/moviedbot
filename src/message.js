@@ -21,15 +21,19 @@ const replyMessage = (message) => {
 
   // Call Recast.AI SDK, through /converse route
   request.converseText(text, { conversationToken: senderId })
-    .then(result => {
-      if (result.action && result.action.slug !== 'discover') {
-        console.log('The conversation action is: ', result.action.slug)
+    .then(conversation => {
+      if (conversation.action && conversation.action.slug !== 'discover') {
+
+        if (conversation.action === 'greetings') {
+          conversation.resetMemory()
+        }
+        console.log('The conversation action is: ', conversation.action.slug)
         // If there is not any message return by Recast.AI for this current conversation
-        if (!result.replies.length) {
+        if (!conversation.replies.length) {
           message.addReply({ type: 'text', content: 'I don\'t have the reply to this yet :)' })
         } else {
           // Add each reply received from API to replies stack
-          result.replies.forEach(replyContent => message.addReply({ type: 'text', content: replyContent }))
+          conversation.replies.forEach(replyContent => message.addReply({ type: 'text', content: replyContent }))
         }
 
         // Send all replies
@@ -38,7 +42,7 @@ const replyMessage = (message) => {
             console.error('Error while sending message to channel', err)
           })
       }
-      return startSearchFlow(message, result)
+      return startSearchFlow(message, conversation)
     })
     .catch(err => {
       console.error('Error while sending message to Recast.AI', err)
