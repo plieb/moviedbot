@@ -24,7 +24,7 @@ const replyMessage = (message) => {
     .then(conversation => {
       if (conversation.action && conversation.action.slug !== 'discover') {
 
-        if (conversation.action === 'greetings') {
+        if (conversation.action.slug === 'greetings') {
           conversation.resetMemory()
             .then(() => console.log('Memory has been reset'))
         }
