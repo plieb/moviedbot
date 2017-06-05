@@ -46,11 +46,11 @@ const apiResultToCarousselle = (response) => {
     title: e.title,
     subtitle: e.overview,
     imageUrl: `https://image.tmdb.org/t/p/w640${e.poster_path}`,
-    // buttons: [{
-    //   type: 'web_url',
-    //   value: `https://www.themoviedb.org/movie/${e.id}`,
-    //   title: 'View More',
-    // }],
+    buttons: [{
+      type: 'postback',
+      value: `https://www.themoviedb.org/movie/${e.id}`,
+      title: 'View More',
+    }],
   }))
 
   if (cards.length === 0) {
