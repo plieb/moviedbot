@@ -57,6 +57,7 @@ const startSearchFlow = (message, conversation) => {
   const genre = conversation.getMemory('genre')
   const date = conversation.getMemory('datetime')
   const nationality = conversation.getMemory('nationality')
+  const language = conversation.getMemory('language')
 
   if (!movie && !tv) {
     return message.reply([{ type: 'text', content: 'Give me a medium !' }])
@@ -78,8 +79,12 @@ const startSearchFlow = (message, conversation) => {
       .then(() => conversation.resetMemory('genre'))
   }
 
-  const isoCode = nationality.short.toLowerCase()
-
+  let isoCode = 'en'
+  if (nationality) {
+    isoCode = nationality.short.toLowerCase()
+  } else if (language) {
+    isoCode = language.short.toLowerCase()
+  }
   const year = moment(date.iso).year()
 
   if (movie) {
