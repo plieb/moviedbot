@@ -66,7 +66,7 @@ const startSearchFlow = (message, conversation) => {
         title: 'Do you want to watch a movie or a tv show?',
         buttons: [
           { title: 'A movie', value: 'A movie' },
-          { title: 'A tv show', value: 'A tv show' },
+          { title: 'A TV show', value: 'A TV show' },
         ],
       },
     }])
