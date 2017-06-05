@@ -5,6 +5,7 @@
 
 const recastai = require('recastai')
 const movieApi = require('./movieApi.js')
+const moment = require('moment')
 
 // This function is the core of the bot behaviour
 const replyMessage = (message) => {
@@ -37,7 +38,7 @@ const replyMessage = (message) => {
             console.error('Error while sending message to channel', err)
           })
       }
-      return startSearchFlow(message, result);
+      return startSearchFlow(message, result)
     })
     .catch(err => {
       console.error('Error while sending message to Recast.AI', err)
@@ -45,17 +46,67 @@ const replyMessage = (message) => {
 }
 
 const startSearchFlow = (message, conversation) => {
-  console.log('Im in search flow!')
+  const movie = conversation.getMemory('movie')
+  const tv = conversation.getMemory('tv')
+
   const genre = conversation.getMemory('genre')
-  // annee 
-  // location / country / language
-  if (genre) {
-    return movieApi.discoverMovie(genre.value)
-      .then(carouselle => message.reply([carouselle]))
-  } else {
-    console.log('hehe')
+  const date = conversation.getMemory('datetime')
+  const nationality = conversation.getMemory('nationality')
+
+  if (!movie && !tv) {
+    return message.reply([{ type: 'text', content: 'Give me a medium !' }])
+  }
+
+  if (!genre) {
     return message.reply([{ type: 'text', content: 'Give me a genre !' }])
   }
+  if (!date) {
+    return message.reply([{ type: 'text', content: 'Give me a date !' }])
+  }
+  if (!nationality) {
+    return message.reply([{ type: 'text', content: 'Give me a nationality !' }])
+  }
+
+  const genreId = getGenreId(genre.value)
+  if (!genreId) {
+    return message.reply([{ type: 'text', content: `I don't know a genre called "${genre.value} yet, could you try again ?"` }])
+      .then(() => conversation.resetMemory('genre'))
+  }
+
+  const isoCode = nationality.short
+
+  const year = moment(date.iso).year()
+
+  if (movie) {
+    return movieApi.discoverMovie(genreId, isoCode, year)
+      .then(carouselle => message.reply([carouselle]))
+  }
+  return movieApi.discoverTv(genreId, isoCode, year)
+}
+
+const getGenreId = (genre) => {
+  const genreMap = {
+    Action: 28,
+    Adventure: 12,
+    Animation: 16,
+    Comedy: 35,
+    Crime: 80,
+    Documentary: 99,
+    Drama: 18,
+    Family: 10751,
+    Fantasy: 14,
+    History: 36,
+    Horror: 27,
+    Music: 10402,
+    Mystery: 9648,
+    Romance: 10749,
+    'Science Fiction': 878,
+    'TV Movie': 10770,
+    Thriller: 53,
+    War: 10752,
+    Western: 37,
+  }
+  return genreMap[genre]
 }
 
 module.exports = replyMessage
