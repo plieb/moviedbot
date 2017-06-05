@@ -1,26 +1,21 @@
 {
-  "name": "Movie Bot",
-  "description": "Movie Bot with The Movie DB & Recast.AI",
+  "name": "Movie Bot with The Movie DB & Recast.AI",
+  "description": "Movie bot",
   "env": {
-    "RE_BOT_TOKEN": {
+    "REQUEST_TOKEN": {
       "description": "Recast bot token",
-      "value":"",
-      "required":false
-    },  
-    "MOVIE_DB_TOKEN_BOT_TOKEN": {
-      "description": "Movie DB access token",
-      "value":"",
-      "required":false
-    },  
+      "value": "",
+      "required": false
+    },
+    "MOVIEDB_TOKEN": {
+      "description": "Your MovieDB API access token",
+      "value": "",
+      "required": false
+    },
     "LANGUAGE": {
-      "description": "Bot default language",
-      "value":"",
-      "required":false
-    },  
-    "PORT": {
-      "description": "Default port",
-      "value":"",
-      "required":false
+      "description": "Your default bot language",
+      "value": "",
+      "required": false
     }
   }
 }
