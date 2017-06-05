@@ -53,6 +53,10 @@ const apiResultToCarousselle = (response) => {
     }],
   }))
 
+  if (cards.length === 0) {
+    return { type: 'text', content: 'Sorry, but I could not find any results for your request :(' }
+  }
+
   return {
     type: 'carouselle',
     content: cards.slice(0, 10),

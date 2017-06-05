@@ -73,7 +73,7 @@ const startSearchFlow = (message, conversation) => {
       .then(() => conversation.resetMemory('genre'))
   }
 
-  const isoCode = nationality.short
+  const isoCode = nationality.short.toLowerCase()
 
   const year = moment(date.iso).year()
 
