@@ -24,6 +24,11 @@ const tvApiCall = (params) => {
 }
 
 const discoverMovie = (genreId, isoCode, year) => {
+  console.log({
+    with_genres: genreId,
+    primary_release_year: year,
+    with_original_language: isoCode,
+  })
   return movieApiCall({
     with_genres: genreId,
     primary_release_year: year,
@@ -33,6 +38,11 @@ const discoverMovie = (genreId, isoCode, year) => {
 }
 
 const discoverTv = (genreId, isoCode, year) => {
+  console.log({
+    with_genres: genreId,
+    primary_release_year: year,
+    with_original_language: isoCode,
+  })
   return tvApiCall({
     with_genres: genreId,
     primary_release_year: year,
@@ -56,6 +66,11 @@ const apiResultToCarousselle = (response) => {
   if (cards.length === 0) {
     return { type: 'text', content: 'Sorry, but I could not find any results for your request :(' }
   }
+
+  console.log({
+    type: 'carouselle',
+    content: cards.slice(0, 10),
+  })
 
   return {
     type: 'carouselle',
