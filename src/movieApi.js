@@ -47,7 +47,7 @@ const apiResultToCarousselle = (response) => {
     subtitle: e.overview,
     imageUrl: `https://image.tmdb.org/t/p/w640${e.poster_path}`,
     buttons: [{
-      type: 'postback',
+      type: 'web_url',
       value: `https://www.themoviedb.org/movie/${e.id}`,
       title: 'View More',
     }],
