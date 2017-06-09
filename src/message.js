@@ -98,7 +98,7 @@ const startSearchFlow = (message, conversation) => {
 
   const genreId = getGenreId(genre.value)
   if (!genreId) {
-    return message.reply([{ type: 'text', content: `I don't know a genre called "${genre.value} yet, could you try again ?"` }])
+    return message.reply([{ type: 'text', content: `I don't know a genre called "${genre.value}" yet, could you try again ?` }])
       .then(() => conversation.resetMemory('genre'))
   }
 
