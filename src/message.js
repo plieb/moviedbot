@@ -122,6 +122,7 @@ const getGenreId = (genre) => {
     Action: 28,
     Adventure: 12,
     Animation: 16,
+    Animated: 16,
     Comedy: 35,
     Crime: 80,
     Documentary: 99,
