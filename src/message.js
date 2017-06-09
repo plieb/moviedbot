@@ -134,6 +134,7 @@ const getGenreId = (genre) => {
     Mystery: 9648,
     Romance: 10749,
     'Science Fiction': 878,
+    'Sci-Fi': 878,
     'TV Movie': 10770,
     Thriller: 53,
     War: 10752,
