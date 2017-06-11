@@ -93,7 +93,7 @@ const startSearchFlow = (message, conversation) => {
     return message.reply([{ type: 'text', content: 'What year of release?' }])
   }
   if (!nationality && !language) {
-    return message.reply([{ type: 'text', content: 'What language?' }])
+    return message.reply([{ type: 'text', content: 'Which language?' }])
   }
 
   const genreId = getGenreId(genre.value)
@@ -103,10 +103,10 @@ const startSearchFlow = (message, conversation) => {
   }
 
   let isoCode = 'en'
-  if (nationality) {
-    isoCode = nationality.short.toLowerCase()
-  } else if (language) {
+  if (language) {
     isoCode = language.short.toLowerCase()
+  } else if (nationality) {
+    isoCode = nationality.short.toLowerCase()
   }
   const year = moment(date.iso).year()
 
@@ -134,6 +134,7 @@ const getGenreId = (genre) => {
     Music: 10402,
     Mystery: 9648,
     Romance: 10749,
+    Romantic: 10749,
     'Science Fiction': 878,
     'Sci-Fi': 878,
     'TV Movie': 10770,
