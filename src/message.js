@@ -56,6 +56,7 @@ const startSearchFlow = (message, conversation) => {
 
   const genre = conversation.getMemory('genre')
   const date = conversation.getMemory('datetime')
+  const dateInterval = conversation.getMemory('interval')
   const nationality = conversation.getMemory('nationality')
   const language = conversation.getMemory('language')
 
@@ -89,11 +90,42 @@ const startSearchFlow = (message, conversation) => {
       },
     }])
   }
-  if (!date) {
-    return message.reply([{ type: 'text', content: 'What year of release?' }])
+
+  if (!date && !dateInterval) {
+    return message.reply([{
+      type: 'quickReplies',
+      content: {
+        title: 'What year of release?',
+        buttons: [
+          { title: 'This year', value: 'This year' },
+          { title: '2010-2017', value: '2010-2017' },
+          { title: '2000-2010', value: '2000-2010' },
+          { title: '1980-2000', value: '1980-2000' },
+          { title: '1950-1980', value: '1950-1980' },
+        ],
+      },
+    }])
   }
+
   if (!nationality && !language) {
-    return message.reply([{ type: 'text', content: 'Which language?' }])
+    return message.reply([{
+      type: 'quickReplies',
+      content: {
+        title: 'Which language?',
+        buttons: [
+          { title: 'English', value: 'I speak english' },
+          { title: 'Spanish', value: 'I speak french' },
+          { title: 'French', value: 'I speak french' },
+          { title: 'German', value: 'I speak german' },
+          { title: 'Chinese', value: 'I speak chinese' },
+          { title: 'Korean', value: 'I speak korean' },
+          { title: 'Japanese', value: 'I speak japanese' },
+          { title: 'Portuguese', value: 'I speak portuguese' },
+          { title: 'Arabic', value: 'I speak arabic' },
+
+        ],
+      },
+    }])
   }
 
   const genreId = getGenreId(genre.value)
@@ -108,13 +140,25 @@ const startSearchFlow = (message, conversation) => {
   } else if (nationality) {
     isoCode = nationality.short.toLowerCase()
   }
-  const year = moment(date.iso).year()
+
+  let year = null
+  let interval = null
+
+  if (date) {
+    year = moment(date.iso).year()
+  }
+  if (dateInterval) {
+    interval = {
+      begin: moment(dateInterval.begin).format('YYYY-MM-DD'),
+      end: moment(dateInterval.end).format('YYYY-MM-DD'),
+    }
+  }
 
   if (movie) {
-    return movieApi.discoverMovie(genreId, isoCode, year)
+    return movieApi.discoverMovie({ genreId, isoCode, year, interval })
       .then(carouselle => message.reply([{ type: 'text', content: 'Here\'s what I found for you!' }, carouselle]))
   }
-  return movieApi.discoverTv(genreId, isoCode, year)
+  return movieApi.discoverTv({ genreId, isoCode, year, interval })
     .then(carouselle => message.reply([{ type: 'text', content: 'Here\'s what I found for you!' }, carouselle]))
 }
 

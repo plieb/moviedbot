@@ -23,30 +23,24 @@ const tvApiCall = (params) => {
   })
 }
 
-const discoverMovie = (genreId, isoCode, year) => {
-  console.log({
-    with_genres: genreId,
-    primary_release_year: year,
-    with_original_language: isoCode,
-  })
+const discoverMovie = ({ genreId, isoCode, year, interval }) => {
   return movieApiCall({
     with_genres: genreId,
     primary_release_year: year,
     with_original_language: isoCode,
+    'primary_release_date.gte': (interval || {}).start,
+    'primary_release_date.lte': (interval || {}).end,
   })
     .then((response) => apiResultToCarousselle(response))
 }
 
-const discoverTv = (genreId, isoCode, year) => {
-  console.log({
-    with_genres: genreId,
-    primary_release_year: year,
-    with_original_language: isoCode,
-  })
+const discoverTv = ({ genreId, isoCode, year, interval }) => {
   return tvApiCall({
     with_genres: genreId,
-    primary_release_year: year,
+    first_air_date_year: year,
     with_original_language: isoCode,
+    'first_air_date.gte': (interval || {}).start,
+    'first_air_date.lte': (interval || {}).end,
   })
     .then((response) => apiResultToCarousselle(response))
 }
