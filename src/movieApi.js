@@ -40,7 +40,7 @@ const discoverMovie = ({ genreId, isoCode, year, interval }) => {
     'primary_release_date.gte': (interval || {}).start,
     'primary_release_date.lte': (interval || {}).end,
   })
-    .then((response) => apiResultToCarousselle(response))
+    .then((response) => apiResultToCarousselle(response, 'movie'))
 }
 
 const discoverTv = ({ genreId, isoCode, year, interval }) => {
@@ -51,10 +51,10 @@ const discoverTv = ({ genreId, isoCode, year, interval }) => {
     'first_air_date.gte': (interval || {}).start,
     'first_air_date.lte': (interval || {}).end,
   })
-    .then((response) => apiResultToCarousselle(response))
+    .then((response) => apiResultToCarousselle(response, 'tv'))
 }
 
-const apiResultToCarousselle = (response) => {
+const apiResultToCarousselle = (response, kind) => {
   const cards = response.data.results.shuffle()
     .slice(0, 10)
     .map(e => ({
@@ -63,7 +63,7 @@ const apiResultToCarousselle = (response) => {
       imageUrl: `https://image.tmdb.org/t/p/w640${e.poster_path}`,
       buttons: [{
         type: 'web_url',
-        value: `https://www.themoviedb.org/movie/${e.id}`,
+        value: `https://www.themoviedb.org/${kind}/${e.id}`,
         title: 'View More',
       }],
     }))

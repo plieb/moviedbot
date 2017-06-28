@@ -77,7 +77,7 @@ const startSearchFlow = (message, conversation) => {
     return message.reply([{
       type: 'quickReplies',
       content: {
-        title: 'What genre of movies do you like?',
+        title: `What genre of ${movie ? 'movies' : 'shows'} do you like?`,
         buttons: [
           { title: 'Action', value: 'Action' },
           { title: 'Comedy', value: 'Comedy' },
@@ -169,6 +169,7 @@ const getGenreId = (genre) => {
     Animation: 16,
     Animated: 16,
     Comedy: 35,
+    Comedies: 35,
     Crime: 80,
     Documentary: 99,
     Drama: 18,
