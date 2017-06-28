@@ -53,7 +53,7 @@ const discoverTv = (genreId, isoCode, year) => {
 
 const apiResultToCarousselle = (response) => {
   const cards = response.data.results.map(e => ({
-    title: e.title,
+    title: e.title || e.name,
     subtitle: e.overview,
     imageUrl: `https://image.tmdb.org/t/p/w640${e.poster_path}`,
     buttons: [{
