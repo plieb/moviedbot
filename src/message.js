@@ -206,6 +206,13 @@ const amusedGifs = [
   'https://media.giphy.com/media/jQmVFypWInKCc/giphy.gif',
   'https://media.giphy.com/media/3NtY188QaxDdC/giphy.gif',
   'https://media.giphy.com/media/ZqlvCTNHpqrio/giphy.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2013/06/giggle.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2013/06/brick-lol.gif',
+  'http://www.reactiongifs.com/r/scbu.gif',
+  'http://www.reactiongifs.com/r/jorlol.gif',
+  'http://www.reactiongifs.com/r/rofl.gif',
+  'http://www.reactiongifs.com/r/shaq.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2013/09/tee-hee.gif',
 ]
 
 module.exports = replyMessage
