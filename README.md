@@ -1,3 +1,5 @@
+[You can talk with the bot on messenger!](https://m.me/moviedbot)
+
 # Recast.AI starter kit NodeJS
 
 A starter kit for developing bots on the [Recast.AI](https://recast.ai) platform.
