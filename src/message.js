@@ -32,13 +32,13 @@ const replyMessage = (message) => {
         }
         if (conversation.action.slug === 'laught') {
           // if the user is laughing, lets send him a funny gif to set up the mood
-          message.addReply({ type: 'image', content: amusedGifs.shuffle()[0] })
+          message.addReply({ type: 'picture', content: amusedGifs.shuffle()[0] })
         } else if (conversation.replies.length > 0) {
           // Add each reply received from API to replies stack
           conversation.replies.forEach(replyContent => message.addReply({ type: 'text', content: replyContent }))
           if (conversation.action.slug === 'ask-joke') {
             // Let's add a funny gif after telling a joke
-            message.addReply({ type: 'image', content: amusedGifs.shuffle()[0] })
+            message.addReply({ type: 'picture', content: amusedGifs.shuffle()[0] })
           }
         } else {
           // If there is not any message return by Recast.AI for this current conversation
