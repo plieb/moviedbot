@@ -23,19 +23,26 @@ const replyMessage = (message) => {
   request.converseText(text, { conversationToken: senderId })
     .then(conversation => {
       if (conversation.action && conversation.action.slug !== 'discover') {
+        console.log('The conversation action is: ', conversation.action.slug)
 
         // We sometime want to reset the memory on some intents
         if (conversation.action.slug === 'greetings' || conversation.action.slug === 'reset') {
           conversation.resetMemory()
             .then(() => console.log('Memory has been reset'))
         }
-        console.log('The conversation action is: ', conversation.action.slug)
-        // If there is not any message return by Recast.AI for this current conversation
-        if (!conversation.replies.length) {
-          message.addReply({ type: 'text', content: 'I don\'t have the reply to this yet :)' })
-        } else {
+        if (conversation.action.slug === 'laught') {
+          // if the user is laughing, lets send him a funny gif to set up the mood
+          message.addReply({ type: 'image', content: amusedGifs.shuffle()[0] })
+        } else if (conversation.replies.length > 0) {
           // Add each reply received from API to replies stack
           conversation.replies.forEach(replyContent => message.addReply({ type: 'text', content: replyContent }))
+          if (conversation.action.slug === 'ask-joke') {
+            // Let's add a funny gif after telling a joke
+            message.addReply({ type: 'image', content: amusedGifs.shuffle()[0] })
+          }
+        } else {
+          // If there is not any message return by Recast.AI for this current conversation
+          message.addReply({ type: 'text', content: 'I don\'t have the reply to this yet :)' })
         }
 
         // Send all replies
@@ -190,5 +197,15 @@ const getGenreId = (genre) => {
   }
   return genreMap[genre]
 }
+
+const amusedGifs = [
+  'http://www.reactiongifs.com/r/tumblr_n254pmd7R81qfo87uo2_250.gif',
+  'http://www.reactiongifs.com/r/bml.gif',
+  'http://www.reactiongifs.com/r/bstngp.gif',
+  'https://media.giphy.com/media/xUPOqrl3x2SkKjE3Is/giphy.gif',
+  'https://media.giphy.com/media/jQmVFypWInKCc/giphy.gif',
+  'https://media.giphy.com/media/3NtY188QaxDdC/giphy.gif',
+  'https://media.giphy.com/media/ZqlvCTNHpqrio/giphy.gif',
+]
 
 module.exports = replyMessage
