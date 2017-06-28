@@ -115,6 +115,7 @@ const startSearchFlow = (message, conversation) => {
       .then(carouselle => message.reply([{ type: 'text', content: 'Here\'s what I found for you!' }, carouselle]))
   }
   return movieApi.discoverTv(genreId, isoCode, year)
+    .then(carouselle => message.reply([{ type: 'text', content: 'Here\'s what I found for you!' }, carouselle]))
 }
 
 const getGenreId = (genre) => {
