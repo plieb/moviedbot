@@ -69,13 +69,21 @@ const apiResultToCarousselle = (response, kind) => {
     }))
 
   if (cards.length === 0) {
-    return { type: 'text', content: 'Sorry, but I could not find any results for your request :(' }
+    return [{ type: 'text', content: 'Sorry, but I could not find any results for your request :(' }]
   }
 
-  return {
-    type: 'carouselle',
-    content: cards,
-  }
+  const lastMessage = [
+    'Here\'s what I found for you!',
+    'There you go!',
+    'Here is what I got. I hope you like what I got.',
+    'This is my selection, but I personally think there are not enough Nicolas Cage movies.\nThere are never enough of Nicolas Cage movies.',
+    'This is what I found, but it would have been better if not for your strange tastes.',
+  ]
+
+  return [
+    { type: 'text', content: lastMessage.shuffle()[0] },
+    { type: 'carouselle', content: cards },
+  ]
 }
 
 module.exports = {

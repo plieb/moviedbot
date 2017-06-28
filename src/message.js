@@ -123,7 +123,6 @@ const startSearchFlow = (message, conversation) => {
           { title: 'Japanese', value: 'I speak japanese' },
           { title: 'Portuguese', value: 'I speak portuguese' },
           { title: 'Arabic', value: 'I speak arabic' },
-
         ],
       },
     }])
@@ -157,10 +156,10 @@ const startSearchFlow = (message, conversation) => {
 
   if (movie) {
     return movieApi.discoverMovie({ genreId, isoCode, year, interval })
-      .then(carouselle => message.reply([{ type: 'text', content: 'Here\'s what I found for you!' }, carouselle]))
+      .then(carouselle => message.reply(carouselle))
   }
   return movieApi.discoverTv({ genreId, isoCode, year, interval })
-    .then(carouselle => message.reply([{ type: 'text', content: 'Here\'s what I found for you!' }, carouselle]))
+    .then(carouselle => message.reply(carouselle))
 }
 
 const getGenreId = (genre) => {
