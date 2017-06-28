@@ -24,7 +24,8 @@ const replyMessage = (message) => {
     .then(conversation => {
       if (conversation.action && conversation.action.slug !== 'discover') {
 
-        if (conversation.action.slug === 'greetings') {
+        // We sometime want to reset the memory on some intents
+        if (conversation.action.slug === 'greetings' || conversation.action.slug === 'reset') {
           conversation.resetMemory()
             .then(() => console.log('Memory has been reset'))
         }
