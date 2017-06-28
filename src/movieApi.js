@@ -1,6 +1,15 @@
 const axios = require('axios')
 
 /* eslint-disable camelcase */
+/* eslint-disable no-extend-native */
+Array.prototype.shuffle = function () {
+  for (let i = this.length; i; i--) {
+    const j = Math.floor(Math.random() * i);
+    [this[i - 1], this[j]] = [this[j], this[i - 1]]
+  }
+  return this
+}
+
 const movieApiCall = (params) => {
   return axios.get('https://api.themoviedb.org/3/discover/movie', {
     params: Object.assign({}, {
@@ -46,29 +55,26 @@ const discoverTv = ({ genreId, isoCode, year, interval }) => {
 }
 
 const apiResultToCarousselle = (response) => {
-  const cards = response.data.results.map(e => ({
-    title: e.title || e.name,
-    subtitle: e.overview,
-    imageUrl: `https://image.tmdb.org/t/p/w640${e.poster_path}`,
-    buttons: [{
-      type: 'web_url',
-      value: `https://www.themoviedb.org/movie/${e.id}`,
-      title: 'View More',
-    }],
-  }))
+  const cards = response.data.results.shuffle()
+    .slice(0, 10)
+    .map(e => ({
+      title: e.title || e.name,
+      subtitle: e.overview,
+      imageUrl: `https://image.tmdb.org/t/p/w640${e.poster_path}`,
+      buttons: [{
+        type: 'web_url',
+        value: `https://www.themoviedb.org/movie/${e.id}`,
+        title: 'View More',
+      }],
+    }))
 
   if (cards.length === 0) {
     return { type: 'text', content: 'Sorry, but I could not find any results for your request :(' }
   }
 
-  console.log({
-    type: 'carouselle',
-    content: cards.slice(0, 10),
-  })
-
   return {
     type: 'carouselle',
-    content: cards.slice(0, 10),
+    content: cards,
   }
 }
 
