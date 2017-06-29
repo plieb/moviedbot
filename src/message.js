@@ -29,6 +29,12 @@ const replyMessage = (message) => {
           return startSearchFlow(message, conversation)
         }
 
+        if (conversation.action.slug === 'anything') {
+          // Let's just start a search with no criteria
+          return movieApi.discoverMovie({})
+            .then(carouselle => message.reply(carouselle))
+        }
+
         // We sometime want to reset the memory on some intents
         if (conversation.action.slug === 'greetings' || conversation.action.slug === 'reset') {
           conversation.resetMemory()
