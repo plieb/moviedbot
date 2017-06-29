@@ -22,14 +22,19 @@ const replyMessage = (message) => {
   // Call Recast.AI SDK, through /converse route
   request.converseText(text, { conversationToken: senderId })
     .then(conversation => {
-      if (conversation.action && conversation.action.slug !== 'discover') {
+      if (conversation.action) {
         console.log('The conversation action is: ', conversation.action.slug)
+
+        if (conversation.action.slug === 'discover') {
+          return startSearchFlow(message, conversation)
+        }
 
         // We sometime want to reset the memory on some intents
         if (conversation.action.slug === 'greetings' || conversation.action.slug === 'reset') {
           conversation.resetMemory()
             .then(() => console.log('Memory has been reset'))
         }
+
         if (conversation.action.slug === 'laught') {
           // if the user is laughing, lets send him a funny gif to set up the mood
           message.addReply({ type: 'picture', content: amusedGifs.shuffle()[0] })
@@ -51,6 +56,8 @@ const replyMessage = (message) => {
             console.error('Error while sending message to channel', err)
           })
       }
+      // If we don't have an intent for this message, we just want to go through to flow, maybe we'll find some interesting entities!
+      // In any case, the user will receive quick replies and it will help him get back on tracks
       return startSearchFlow(message, conversation)
     })
     .catch(err => {
