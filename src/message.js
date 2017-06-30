@@ -35,6 +35,15 @@ const replyMessage = (message) => {
             .then(carouselle => message.reply(carouselle))
         }
 
+        if (conversation.action.slug === 'such-as' && conversation.getMemory('movie-name')) {
+          if (conversation.getMemory('tv')) {
+            return movieApi.findShowSimilarTo(conversation.getMemory('movie-name').value)
+              .then(carouselle => message.reply(carouselle))
+          }
+          return movieApi.findMovieSimilarTo(conversation.getMemory('movie-name').value)
+            .then(carouselle => message.reply(carouselle))
+        }
+
         // We sometime want to reset the memory on some intents
         if (conversation.action.slug === 'greetings' || conversation.action.slug === 'reset') {
           conversation.resetMemory()

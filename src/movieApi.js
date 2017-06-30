@@ -45,6 +45,67 @@ const discoverTv = ({ genreId, isoCode, year, interval }) => {
     .then((response) => apiResultToCarousselle(response, 'tv'))
 }
 
+const findMovieSimilarTo = (movie) => {
+  return movieDbSearch('movie', { query: movie })
+    .then(elems => {
+      console.log(movie)
+      console.log(elems)
+      if (elems.length === 0) {
+        return [{
+          type: 'quickReplies',
+          content: {
+            title: 'Sorry, but I could not find any results for your request :(',
+            buttons: [{ title: 'Start over', value: 'Start over' }],
+          },
+        }]
+
+      }
+      return movieDbGetRecommendations(elems[0].id, 'movie')
+        .then((res) => apiResultToCarousselle(res, 'movie'))
+    })
+}
+
+const findShowSimilarTo = (movie) => {
+  return movieDbSearch('show', { query: movie })
+    .then(elems => {
+      if (elems.length === 0) {
+        return [{
+          type: 'quickReplies',
+          content: {
+            title: 'Sorry, but I could not find any results for your request :(',
+            buttons: [{ title: 'Start over', value: 'Start over' }],
+          },
+        }]
+
+      }
+      return movieDbGetRecommendations(elems[0].id, 'show')
+        .then((res) => apiResultToCarousselle(res, 'show'))
+    })
+}
+
+const movieDbSearch = (kind, params = {}) => {
+  return axios.get(`https://api.themoviedb.org/3/search/${kind}`, {
+    params: Object.assign({}, {
+      api_key: process.env.MOVIEDB_TOKEN,
+      include_adult: false,
+      page: 1,
+    }, params),
+  })
+    .then(res => res.data.results)
+}
+
+const movieDbGetRecommendations = (id, kind, params = {}) => {
+  return Promise.all(
+    [1, 2, 3].map(page => axios.get(`https://api.themoviedb.org/3/${kind}/${id}/recommendations`, {
+      params: Object.assign({}, {
+        api_key: process.env.MOVIEDB_TOKEN,
+        page,
+      }, params),
+    }))
+  ).then(res => res.reduce((sum, currentElem) => sum.concat(currentElem.data.results), []))
+
+}
+
 const apiResultToCarousselle = (results, kind) => {
   const cards = results.shuffle()
     .slice(0, 10)
@@ -97,4 +158,6 @@ const apiResultToCarousselle = (results, kind) => {
 module.exports = {
   discoverMovie,
   discoverTv,
+  findMovieSimilarTo,
+  findShowSimilarTo,
 }
