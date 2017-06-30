@@ -140,7 +140,7 @@ const startSearchFlow = (message, conversation) => {
         title: 'Which language?',
         buttons: [
           { title: 'English', value: 'I speak english' },
-          { title: 'Spanish', value: 'I speak french' },
+          { title: 'Spanish', value: 'I speak spanish' },
           { title: 'French', value: 'I speak french' },
           { title: 'German', value: 'I speak german' },
           { title: 'Chinese', value: 'I speak chinese' },
