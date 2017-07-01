@@ -156,7 +156,7 @@ const startSearchFlow = (message, conversation) => {
     }])
   }
 
-  const genreId = getGenreId(genre.value)
+  const genreId = getGenreId(genre.value, movie)
   if (!genreId) {
     return message.reply([{ type: 'text', content: `I don't know a genre called "${genre.value}" yet, could you try again ?` }])
       .then(() => conversation.resetMemory('genre'))
@@ -287,7 +287,7 @@ const tvGenres = [
   { id: 37, name: 'Western' },
 ]
 
-const getGenreId = (genre) => {
+const getGenreId = (genre, movie) => {
   if (movie) {
     return (
       movieGenres.find(elem => elem.name === genre)
