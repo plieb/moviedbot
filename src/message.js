@@ -53,6 +53,9 @@ const replyMessage = (message) => {
         if (conversation.action.slug === 'laught') {
           // if the user is laughing, lets send him a funny gif to set up the mood
           message.addReply({ type: 'picture', content: amusedGifs.shuffle()[0] })
+        } else if (conversation.action.slug === 'naughty') {
+          // if the user is laughing, lets send him a funny gif to set up the mood
+          message.addReply({ type: 'picture', content: shockedGifs.shuffle()[0] })
         } else if (conversation.replies.length > 0) {
           // Add each reply received from API to replies stack
           conversation.replies.forEach(replyContent => message.addReply({ type: 'text', content: replyContent }))
@@ -191,6 +194,7 @@ const movieGenres = [
   { id: 28, name: 'Action' },
   { id: 12, name: 'Adventure' },
   { id: 16, name: 'Animation' },
+  { id: 16, name: 'Animated' },
   { id: 35, name: 'Comedy' },
   { id: 80, name: 'Crime' },
   { id: 99, name: 'Documentary' },
@@ -202,7 +206,10 @@ const movieGenres = [
   { id: 10402, name: 'Music' },
   { id: 9648, name: 'Mystery' },
   { id: 10749, name: 'Romance' },
+  { id: 10749, name: 'Romantic' },
   { id: 878, name: 'Science Fiction' },
+  { id: 878, name: 'Sci-Fi' },
+  { id: 878, name: 'Sci Fi' },
   { id: 10770, name: 'TV Movie' },
   { id: 53, name: 'Thriller' },
   { id: 10752, name: 'War' },
@@ -211,7 +218,9 @@ const movieGenres = [
 
 const tvGenres = [
   { id: 10759, name: 'Action & Adventure' },
+  { id: 10759, name: 'Action' },
   { id: 16, name: 'Animation' },
+  { id: 16, name: 'Animated' },
   { id: 35, name: 'Comedy' },
   { id: 80, name: 'Crime' },
   { id: 99, name: 'Documentary' },
@@ -222,6 +231,9 @@ const tvGenres = [
   { id: 10763, name: 'News' },
   { id: 10764, name: 'Reality' },
   { id: 10765, name: 'Sci-Fi & Fantasy' },
+  { id: 10765, name: 'Science Fiction' },
+  { id: 10765, name: 'Sci-Fi' },
+  { id: 10765, name: 'Sci Fi' },
   { id: 10766, name: 'Soap' },
   { id: 10767, name: 'Talk' },
   { id: 10768, name: 'War & Politics' },
@@ -251,6 +263,23 @@ const amusedGifs = [
   'http://www.reactiongifs.com/r/rofl.gif',
   'http://www.reactiongifs.com/r/shaq.gif',
   'http://www.reactiongifs.com/wp-content/uploads/2013/09/tee-hee.gif',
+]
+
+const shockedGifs = [
+  'http://www.reactiongifs.com/r/lolof1.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2013/09/tee-hee.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2012/12/BradshawOMG.gif',
+  'https://media.giphy.com/media/pnPfFgZi3lnO/giphy.gif',
+  'https://media.giphy.com/media/YlPeYXasYEPpC/giphy.gif',
+  'http://www.reactiongifs.com/r/jwdrp.gif',
+  'http://www.reactiongifs.com/r/gsp.gif',
+  'http://www.reactiongifs.com/r/Shocked.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2013/10/miley-omg.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2013/09/colbert-jaw-drop.gif',
+  'https://media.giphy.com/media/l3vRo7sVkDkOQsULu/giphy.gif',
+  'https://media.giphy.com/media/PGg4D8lGwRz0s/giphy.gif',
+  'https://media.giphy.com/media/Xrb2vgFzLKMso/giphy.gif',
+  'https://media.giphy.com/media/3oKIPrljOVYppIrRcY/giphy.gif',
 ]
 
 module.exports = replyMessage
