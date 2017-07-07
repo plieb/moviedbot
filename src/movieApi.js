@@ -66,7 +66,7 @@ const findMovieSimilarTo = (movie) => {
 }
 
 const findShowSimilarTo = (movie) => {
-  return movieDbSearch('show', { query: movie })
+  return movieDbSearch('tv', { query: movie })
     .then(elems => {
       if (elems.length === 0) {
         return [{
@@ -78,8 +78,8 @@ const findShowSimilarTo = (movie) => {
         }]
 
       }
-      return movieDbGetRecommendations(elems[0].id, 'show')
-        .then((res) => apiResultToCarousselle(res, 'show'))
+      return movieDbGetRecommendations(elems[0].id, 'tv')
+        .then((res) => apiResultToCarousselle(res, 'tv'))
     })
 }
 
