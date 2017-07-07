@@ -53,6 +53,9 @@ const replyMessage = (message) => {
         if (conversation.action.slug === 'laught') {
           // if the user is laughing, lets send him a funny gif to set up the mood
           message.addReply({ type: 'picture', content: amusedGifs.shuffle()[0] })
+        } else if (conversation.action.slug === 'naughty') {
+          // if the user is laughing, lets send him a funny gif to set up the mood
+          message.addReply({ type: 'picture', content: shockedGifs.shuffle()[0] })
         } else if (conversation.replies.length > 0) {
           // Add each reply received from API to replies stack
           conversation.replies.forEach(replyContent => message.addReply({ type: 'text', content: replyContent }))
@@ -104,7 +107,7 @@ const startSearchFlow = (message, conversation) => {
   }
 
   if (!genre) {
-    const buttons = (movie ? movieGenres : tvGenres)
+    const buttons = (movie ? movieGenresQuick : tvGenresQuick)
       .shuffle()
       .map(e => ({ title: e.name, value: e.name }))
       .slice(0, 11)
@@ -153,7 +156,7 @@ const startSearchFlow = (message, conversation) => {
     }])
   }
 
-  const genreId = getGenreId(genre.value)
+  const genreId = getGenreId(genre.value, movie)
   if (!genreId) {
     return message.reply([{ type: 'text', content: `I don't know a genre called "${genre.value}" yet, could you try again ?` }])
       .then(() => conversation.resetMemory('genre'))
@@ -187,10 +190,52 @@ const startSearchFlow = (message, conversation) => {
     .then(carouselle => message.reply(carouselle))
 }
 
+const movieGenresQuick = [
+    { name: 'Action'  },
+    { name: 'Adventure'  },
+    { name: 'Animation'  },
+    { name: 'Comedy'  },
+    { name: 'Crime'  },
+    { name: 'Documentary'  },
+    { name: 'Drama'  },
+    { name: 'Family'  },
+    { name: 'Fantasy'  },
+    { name: 'History'  },
+    { name: 'Horror'  },
+    { name: 'Music'  },
+    { name: 'Mystery'  },
+    { name: 'Romance'  },
+    { name: 'Science Fiction'  },
+    { name: 'TV Movie'  },
+    { name: 'Thriller'  },
+    { name: 'War'  },
+    { name: 'Western'  },
+]
+
+const tvGenresQuick = [
+    { name: 'Action & Adventure' },
+    { name: 'Animation' },
+    { name: 'Comedy' },
+    { name: 'Crime' },
+    { name: 'Documentary' },
+    { name: 'Drama' },
+    { name: 'Family' },
+    { name: 'Kids' },
+    { name: 'Mystery' },
+    { name: 'News' },
+    { name: 'Reality' },
+    { name: 'Sci-Fi & Fantasy' },
+    { name: 'Soap' },
+    { name: 'Talk' },
+    { name: 'War & Politics' },
+    { name: 'Western' },
+]
+
 const movieGenres = [
   { id: 28, name: 'Action' },
   { id: 12, name: 'Adventure' },
   { id: 16, name: 'Animation' },
+  { id: 16, name: 'Animated' },
   { id: 35, name: 'Comedy' },
   { id: 80, name: 'Crime' },
   { id: 99, name: 'Documentary' },
@@ -202,7 +247,11 @@ const movieGenres = [
   { id: 10402, name: 'Music' },
   { id: 9648, name: 'Mystery' },
   { id: 10749, name: 'Romance' },
+  { id: 10749, name: 'Romantic' },
   { id: 878, name: 'Science Fiction' },
+  { id: 878, name: 'Sci-Fi' },
+  { id: 878, name: 'Sci Fi' },
+  { id: 878, name: 'SF' },
   { id: 10770, name: 'TV Movie' },
   { id: 53, name: 'Thriller' },
   { id: 10752, name: 'War' },
@@ -211,9 +260,14 @@ const movieGenres = [
 
 const tvGenres = [
   { id: 10759, name: 'Action & Adventure' },
+  { id: 10759, name: 'Action' },
   { id: 16, name: 'Animation' },
+  { id: 16, name: 'Animated' },
   { id: 35, name: 'Comedy' },
+  { id: 35, name: 'Romance' },
+  { id: 35, name: 'Romantic' },
   { id: 80, name: 'Crime' },
+  { id: 80, name: 'Thriller' },
   { id: 99, name: 'Documentary' },
   { id: 18, name: 'Drama' },
   { id: 10751, name: 'Family' },
@@ -222,18 +276,29 @@ const tvGenres = [
   { id: 10763, name: 'News' },
   { id: 10764, name: 'Reality' },
   { id: 10765, name: 'Sci-Fi & Fantasy' },
+  { id: 10765, name: 'Fantasy' },
+  { id: 10765, name: 'Science Fiction' },
+  { id: 10765, name: 'Sci-Fi' },
+  { id: 10765, name: 'Sci Fi' },
+  { id: 10765, name: 'SF' },
   { id: 10766, name: 'Soap' },
   { id: 10767, name: 'Talk' },
   { id: 10768, name: 'War & Politics' },
   { id: 37, name: 'Western' },
 ]
 
-const getGenreId = (genre) => {
-  return (
-    movieGenres.find(elem => elem.name === genre)
-    || tvGenres.find(elem => elem.name === genre)
-    || {}
-  ).id
+const getGenreId = (genre, movie) => {
+  if (movie) {
+    return (
+      movieGenres.find(elem => elem.name === genre)
+      || {}
+    ).id
+  } else {
+    return (
+      tvGenres.find(elem => elem.name === genre)
+      || {}
+    ).id
+  }
 }
 
 const amusedGifs = [
@@ -251,6 +316,23 @@ const amusedGifs = [
   'http://www.reactiongifs.com/r/rofl.gif',
   'http://www.reactiongifs.com/r/shaq.gif',
   'http://www.reactiongifs.com/wp-content/uploads/2013/09/tee-hee.gif',
+]
+
+const shockedGifs = [
+  'http://www.reactiongifs.com/r/lolof1.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2013/09/tee-hee.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2012/12/BradshawOMG.gif',
+  'https://media.giphy.com/media/pnPfFgZi3lnO/giphy.gif',
+  'https://media.giphy.com/media/YlPeYXasYEPpC/giphy.gif',
+  'http://www.reactiongifs.com/r/jwdrp.gif',
+  'http://www.reactiongifs.com/r/gsp.gif',
+  'http://www.reactiongifs.com/r/Shocked.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2013/10/miley-omg.gif',
+  'http://www.reactiongifs.com/wp-content/uploads/2013/09/colbert-jaw-drop.gif',
+  'https://media.giphy.com/media/l3vRo7sVkDkOQsULu/giphy.gif',
+  'https://media.giphy.com/media/PGg4D8lGwRz0s/giphy.gif',
+  'https://media.giphy.com/media/Xrb2vgFzLKMso/giphy.gif',
+  'https://media.giphy.com/media/3oKIPrljOVYppIrRcY/giphy.gif',
 ]
 
 module.exports = replyMessage
