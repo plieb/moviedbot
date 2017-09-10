@@ -8,7 +8,7 @@ This bot is part of the #[OBAW Github](https://github.com/plieb/OBAW) project - 
 
 Medium publication project page #[OBAW Medium](https://medium.com/the-obaw-project)
 
-Medium publication Meetup project #[OBAW The Movie DB](https://medium.com/the-obaw-project/obaw-project-week-0x0007-meetup-1aca9c5f1dff#)
+Medium publication The Movie DB project #[OBAW The Movie DB](https://onebotaweek.com/obaw-project-week-0x0009-the-movie-db-6558b1c6167b)
 
 # The Movie DB Bot for Facebook Messenger using Recast.AI
 
