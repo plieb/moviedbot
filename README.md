@@ -1,125 +1,66 @@
-[You can talk with the bot on messenger!](https://m.me/moviedbot)
+[![Talk to The Movie DB bot][image]][hyperlink]
 
-# Recast.AI starter kit NodeJS
+[hyperlink]: https://m.me/moviedbot
+[image]: https://github.com/plieb/moviedbot/blob/master/assets/messenger.png (Talk to Moviedbot)
 
-A starter kit for developing bots on the [Recast.AI](https://recast.ai) platform.
+[logo]: https://github.com/plieb/moviedbot/blob/master/assets/OBAW%20-%20Week%200x0009.png "The Movie DB + Recast.AI"
+![The Movie DB + Recast.AI][logo]
 
-> **Note:** This project is currently in beta version and can be modified at any time.
+This bot is part of the #[OBAW Github](https://github.com/plieb/OBAW) project - Week 0x0009 - The Movie DB
 
-## Requirements
+Medium publication project page #[OBAW Medium](https://medium.com/the-obaw-project)
 
-#### Node version
+Medium publication Meetup project #[OBAW The Movie DB](https://medium.com/the-obaw-project/obaw-project-week-0x0007-meetup-1aca9c5f1dff#)
 
-We recommend to use at least `node v4.3.0`
+# The Movie DB Bot for Facebook Messenger using Recast.AI
 
+A [Movie DB](https://www.themoviedb.org/)-powered bot using [Recast.AI](https://recast.ai) NLP
 
-#### Recast.AI account
+Follow the instructions below to create your own instance of the bot:
 
-Create an account on the [Recast.AI](https://recast.ai) platform and follow this [quick tutorial](https://recast.ai/gettingstarted) to create your first bot on the interface.
-
-## Usage
-
-
-#### Installation
-
-`git clone https://github.com/RecastAI/starter-NodeJS.git my-bot && cd my-bot`
-
-using npm
-`npm install`
-
-or yarn
-`yarn`
-
-
-#### Create the config file
-
- Create a `config.js` file in the `src` directory of your project, copy/paste these lines:
-
-```javascript
-process.env.PORT = '5000'
-process.env.REQUEST_TOKEN = ''
-process.env.LANGUAGE = ''
-// Write your own configuration here:
-// ...
-```
-
-Complete the Recast.AI `process.env.REQUEST_TOKEN` and `process.env.LANGUAGE`: go to your bot page, click on the settings icon (on the right side of your screen), and copy the `request_token`.
-Then, set the default language of your bot: `'en'`, `'fr'`... or leave this field empty for auto-detection language
-
-Tips: This config. file will never be pushed onto your repository. If you would like to deploy your code with **Bot Hosting**, you just have to create env. variables in **Bot Hosting** section in **RUN** page. More info in [About your config. file](https://github.com/RecastAI/starter-NodeJS#about-your-config-file)
-
-
-#### Run locally
-
-using npm `npm start`
-
-using yarn `yarn start`
-
-> **Note:** Next steps, only if you have connected your bot to channels, using the Bot Connector tool
-
-- download [ngrok](https://ngrok.com/)
-- launch it: `./ngrok http 5000`
-- copy the url ngrok gave and paste it in the [Recast.AI](https://recast.ai) interface: Go to your bot page, click on the **RUN** tab and edit your `current bot webhook`
-- Chat with your bot on the channels you've configured ;)
-
-#### Alternative, if you are not using **Bot Connector**
-
-If you're not using the Bot Connector to connect your bot to the channels, you will only need to change the `bot.js` file and the `message.js` file and make changes depending on the way you want to receive the message.
-
-## Documentation
-
-Code | Documentation
------------- | -------------
-Receiving messages | [The Recast.AI SDK](https://github.com/RecastAI/SDK-NodeJS/wiki) - connect
-Sending messages | [The Recast.AI SDK](https://github.com/RecastAI/SDK-NodeJS/wiki) - connect
-Rich messaging | See the different [payload message](https://man.recast.ai)
-Manage the conversation | [The Recast.AI SDK](https://github.com/RecastAI/SDK-NodeJS/wiki) - converse
-
-
-## How your code will be deployed?
+## Step 1: Deploy the Bot
 
 1. Make sure you are logged in to the [Heroku Dashboard](https://dashboard.heroku.com/)
 1. Click the button below to deploy the Messenger bot on Heroku:
 
     [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-    
-To host your bot and deploy your code, create a repository on Github, and push this code on it.
-Connect your github account on Recast:
 
-- Go to your bot page
-- Click on the **RUN** tab, and on the **Bot Hosting** menu
-- Connect your Github account
-- Select the repository you've just created
-- Wait a little, we're starting your instance...
+1. Fill in the config variables as described.
 
-Every time you will push onto the master branch, we'll deploy your code :clap:
+    - For **LANGUAGE** put 'en'
+    - For **REQUEST_TOKEN** blank for now (filled at step 2)
+    - For **MOVIEDB_TOKEN** blank for now (filled at step 4)
 
-#### Requirements
+## Step 2: Get your Recast.AI bot
 
-Since we deploy your code your code in generic containers, there are 3 requirements:
+1. Make sure you are logged in to your [Recast.AI account](https://recast.ai/)
+1. Follow this link [Moviedbot](https://recast.ai/recast-ai/moviedbot/train) and fork the bot to your account
+1. Copy paste your `bot request access token` in the **Config Variables** section of your Heroku app to `REQUEST_TOKEN`
 
-- [x] Your package.json **must** contain the `build` task. It must be present even if empty or just copying files. The default one you will find in the starter kit is `"build": "babel src -d lib"` to compile your Javascript. So you can code with your favorite ES6, ES7 features :thumbsup:
-- [x] A lib directory must be present (by default it's created with the `build` task)
-- [x] The entrypoint of your code in production **must** be in the `lib/bot.js` file. This file **must** contain an export of a `bot` function named `bot`. It takes as the first argument the body of the request (Bot Connector, custom curl,...)
+## Step 3: Connect your bot to Messenger
 
-You can change all other file names, directory structures, but be sure that these three points work fine!
+1. Go to your **RUN** tab
+1. Click the **Bot Connector** tab and follow instructions to add a Messenger channel
+1. Once it's done at the top set your **Current bot webhook** to :
+    - Heroku URL + **/webhook** (MY_HEROKU_URL.heroku.com/webhook)
 
-#### About your config. file
+## Step 4: Get your The Movie DB API key
 
-The `src/config.js` file will never be pushed to your repository, to keep your configuration private.
+1. Make sure you are logged in to your [The Movie DB account](https://www.themoviedb.org/login?language=en)
+1. Follow this link [The Movie DB API](https://developers.themoviedb.org/3/getting-started) and follow the steps to get your API key
+1. Paste your `API Key` in the **Config Variables** section of your Heroku app to `MOVIEDB_TOKEN`
 
-To set up your local env. variables in **Bot Hosting**, you have to create env. variables in **Bot Hosting** section in the **RUN** page.
+## Authors
 
-`PORT` env. variable is not needed. **Bot Hosting** manages it for you :)
+PE Lieb [@liebpe](https://twitter.com/liebpe)
 
-`REQUEST_TOKEN` and `LANGUAGE` env. variables are already set up with your bot configuration. `LANGUAGE` can be customised with the one you want (`en`, `fr`, ...)
+Nathan Grasset [@pedward_lieb](https://twitter.com/Nathan_Grasset)
 
-You can add any env. variable you want in the **Bot Hosting** section and then use it in your code with this syntax: `process.env.MY_ENV_VAR_NAME`
-
-## More
-
-You can view the whole API reference at [man.recast.ai](https://man.recast.ai).
 You can follow us on Twitter at [@recastai](https://twitter.com/recastai) for updates and releases.
+
+## Special thanks
+
+- [The Movie DB API](https://developers.themoviedb.org)
 
 ## License
 
