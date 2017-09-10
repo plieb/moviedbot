@@ -1,5 +1,3 @@
-[![Talk to The Movie DB bot][image]][hyperlink]
-
 [hyperlink]: https://m.me/moviedbot
 [image]: https://github.com/plieb/moviedbot/blob/master/assets/messenger.png (Talk to Moviedbot)
 
@@ -50,11 +48,13 @@ Follow the instructions below to create your own instance of the bot:
 1. Follow this link [The Movie DB API](https://developers.themoviedb.org/3/getting-started) and follow the steps to get your API key
 1. Paste your `API Key` in the **Config Variables** section of your Heroku app to `MOVIEDB_TOKEN`
 
+[![Talk to The Movie DB bot][image]][hyperlink]
+
 ## Authors
 
 PE Lieb [@liebpe](https://twitter.com/liebpe)
 
-Nathan Grasset [@pedward_lieb](https://twitter.com/Nathan_Grasset)
+Nathan Grasset [@Nathan_Grasset](https://twitter.com/Nathan_Grasset)
 
 You can follow us on Twitter at [@recastai](https://twitter.com/recastai) for updates and releases.
 
