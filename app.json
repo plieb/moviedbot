@@ -8,7 +8,7 @@
       "required": false
     },
     "MOVIEDB_TOKEN": {
-      "description": "Your MovieDB API access token",
+      "description": "MovieDB API access token",
       "value": "",
       "required": false
     },
