@@ -1,7 +1,7 @@
 {
   "name": "Recast-ai-starter-kit",
   "version": "1.0.0",
-  "description": "A bot built with Recast.AI",
+  "description": "Bot built with Recast.AI",
   "main": "server.js",
   "scripts": {
     "start": "babel src -d lib && node lib/server.js",
