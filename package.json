@@ -1,40 +1,17 @@
 {
-  "name": "Recast-ai-starter-kit",
+  "name": "movie_bot",
   "version": "1.0.0",
-  "description": "Bot built with Recast.AI",
-  "main": "server.js",
-  "engines": {
-    "node": "8.1.1"
-  },
+  "description": "A backend for your weather bot on Recast.ai",
+  "main": "index.js",
+  "author": "pierre-edouard.lieb@sap.com",
+  "license": "MIT",
   "scripts": {
-    "start": "node src/server.js",
-    "prod": "node src/server.js",
-    "lint": "eslint src/"
-  },
-  "author": "Recast",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:RecastAI/starter-NodeJS.git"
+    "start": "node index.js"
   },
   "dependencies": {
-    "axios": "^0.16.1",
-    "body-parser": "^1.15.2",
-    "express": "^4.14.0",
-    "moment": "^2.18.1",
-    "recastai": "^3.1.1"
-  },
-  "devDependencies": {
-    "eslint": "^3.2.0",
-    "eslint-config-zavatta": "^4.2.0",
-    "eslint-plugin-import": "^1.6.1",
-    "nodemon": "^1.11.0"
-  },
-  "eslintConfig": {
-    "extends": "zavatta",
-    "rules": {
-      "no-console": 0,
-      "callback-return": 0
-    }
+    "axios": "^0.16.2",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4"
   }
 }
