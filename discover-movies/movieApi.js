@@ -45,22 +45,30 @@ function apiResultToCarousselle(results) {
     ],
   }));
 
+  const lastMessage = [
+    'Here\'s what I found for you!',
+    'There you go!',
+    'There you go, mate!',
+    'Here is what I got. I hope you like what I got.',
+    'Hope you\'ll like what I found for you! (Not that I really care, I don\'t actually have feelings, just trying to be polite)',
+    'This is my selection, but I personally think there are not enough Nicolas Cage movies.\nThere are never enough of Nicolas Cage movies.',
+    'This is what I found, but it would have been better if not for your strange tastes.',
+    'This is it:',
+    'Grab some pop corn and enjoy:',
+  ]
+
   return [
     {
       type: 'text',
-      content: "Enjoy the movies 🍿",
+      content: lastMessage.shuffle()[0],
     },
     { type: 'carousel', content: cards },
-    { type: 'quickreplies',
-      "content": {
-        "title": "You can start again a new search",
-        "buttons": [
-          {
-            "title": "Start again",
-            "value": "I want to start again"
-          }
-        ]
-      }
+    {
+      type: 'quickReplies',
+      content: {
+        title: 'You can change your criterias if you want to!',
+        buttons: [{ title: 'Start over', value: 'Start over' }],
+      },
     },
   ];
 }
