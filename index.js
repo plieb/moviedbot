@@ -16,5 +16,9 @@ app.post('/errors', function(req, res) {
 
 const port = config.PORT;
 app.listen(port, function() {
+  console.log('======================================')
+  console.log(`PORT: ${port}`)
+  console.log(`MOVIEDB_TOKEN: ${config.MOVIEDB_TOKEN}`)
+  console.log('======================================')
   console.log(`App is listening on port ${port}`);
 });
