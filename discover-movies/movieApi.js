@@ -51,14 +51,16 @@ function apiResultToCarousselle(results) {
       content: "Enjoy the movies 🍿",
     },
     { type: 'carousel', content: cards },
-    { type: 'quickreplies', "content": {
-      "title": "You can start again a new search",
-      "buttons": [
-        {
-          "title": "Start again",
-          "value": "I want to start again"
-        }
-      ]
+    { type: 'quickreplies',
+      "content": {
+        "title": "You can start again a new search",
+        "buttons": [
+          {
+            "title": "Start again",
+            "value": "I want to start again"
+          }
+        ]
+      }
     },
   ];
 }
