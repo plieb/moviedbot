@@ -42,20 +42,24 @@ function apiResultToCarousselle(results) {
         value: `https://www.themoviedb.org/movie/${e.id}`,
         title: 'View More',
       },
-      {
-        type: 'postback',
-        value: 'Hello',
-        title: 'Say hello',
-      },
     ],
   }));
 
   return [
     {
       type: 'text',
-      content: "Here's what I found for you!",
+      content: "Enjoy the movies 🍿",
     },
     { type: 'carousel', content: cards },
+    { type: 'quickreplies', "content": {
+      "title": "You can start again a new search",
+      "buttons": [
+        {
+          "title": "Start again",
+          "value": "I want to start again"
+        }
+      ]
+    },
   ];
 }
 
