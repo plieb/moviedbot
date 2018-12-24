@@ -1,6 +1,14 @@
 const axios = require('axios');
 const config = require('../config');
 
+Array.prototype.shuffle = function () {
+  for (let i = this.length; i; i--) {
+    const j = Math.floor(Math.random() * i);
+    [this[i - 1], this[j]] = [this[j], this[i - 1]]
+  }
+  return this
+}
+
 function discoverMovie(kind, genreId, language) {
   return moviedbApiCall(kind, genreId, language).then(response =>
     apiResultToCarousselle(response.data.results)
