@@ -9,49 +9,125 @@ Array.prototype.shuffle = function () {
   return this
 }
 
-function discoverMovie(kind, genreId, language) {
-  return moviedbApiCall(kind, genreId, language).then(response =>
-    apiResultToCarousselle(response.data.results)
-  );
+const discoverMovie = ({ genreId, isoCode, year, interval }) => {
+  return moviedbApiCall('movie', {
+    with_genres: genreId,
+    primary_release_year: year,
+    with_original_language: isoCode,
+    'primary_release_date.gte': (interval || {}).start,
+    'primary_release_date.lte': (interval || {}).end,
+  })
+    .then((response) => apiResultToCarousselle(response, 'movie'))
 }
 
-function moviedbApiCall(kind, genreId, language) {
-  return axios.get(`https://api.themoviedb.org/3/discover/${kind}`, {
-    params: {
+const discoverTv = ({ genreId, isoCode, year, interval }) => {
+  return moviedbApiCall('tv', {
+    with_genres: genreId,
+    first_air_date_year: year,
+    with_original_language: isoCode,
+    'air_date.gte': (interval || {}).start,
+    'air_date.lte': (interval || {}).end,
+  })
+    .then((response) => apiResultToCarousselle(response, 'tv'))
+}
+
+const moviedbApiCall = (kind, params) => {
+  return Promise.all(
+    [1, 2, 3].map(page => axios.get(`https://api.themoviedb.org/3/discover/${kind}`, {
+      params: Object.assign({}, {
+        api_key: config.MOVIEDB_TOKEN,
+        sort_by: 'popularity.desc',
+        include_adult: false,
+        page,
+      }, params),
+    }))
+  ).then(res => res.reduce((sum, currentElem) => sum.concat(currentElem.data.results), []))
+}
+
+const findMovieSimilarTo = (movie) => {
+  return movieDbSearch('movie', { query: movie })
+    .then(elems => {
+      console.log(movie)
+      console.log(elems)
+      if (elems.length === 0) {
+        return [{
+          type: 'quickReplies',
+          content: {
+            title: 'Sorry, but I could not find any results for your request :(',
+            buttons: [{ title: 'Start over', value: 'Start over' }],
+          },
+        }]
+
+      }
+      return movieDbGetRecommendations(elems[0].id, 'movie')
+        .then((res) => apiResultToCarousselle(res, 'movie'))
+    })
+}
+
+const findShowSimilarTo = (movie) => {
+  return movieDbSearch('tv', { query: movie })
+    .then(elems => {
+      if (elems.length === 0) {
+        return [{
+          type: 'quickReplies',
+          content: {
+            title: 'Sorry, but I could not find any results for your request :(',
+            buttons: [{ title: 'Start over', value: 'Start over' }],
+          },
+        }]
+
+      }
+      return movieDbGetRecommendations(elems[0].id, 'tv')
+        .then((res) => apiResultToCarousselle(res, 'tv'))
+    })
+}
+
+const movieDbSearch = (kind, params = {}) => {
+  return axios.get(`https://api.themoviedb.org/3/search/${kind}`, {
+    params: Object.assign({}, {
       api_key: config.MOVIEDB_TOKEN,
-      sort_by: 'popularity.desc',
       include_adult: false,
-      with_genres: genreId,
-      with_original_language: language,
-    },
-  });
+      page: 1,
+    }, params),
+  })
+    .then(res => res.data.results)
 }
 
-function apiResultToCarousselle(results) {
-  if (results.length === 0) {
-    return [
-      {
-        type: 'quickReplies',
-        content: {
-          title: 'Sorry, but I could not find any results for your request :(',
-          buttons: [{ title: 'Start over', value: 'Start over' }],
-        },
-      },
-    ];
-  }
+const movieDbGetRecommendations = (id, kind, params = {}) => {
+  return Promise.all(
+    [1, 2, 3].map(page => axios.get(`https://api.themoviedb.org/3/${kind}/${id}/recommendations`, {
+      params: Object.assign({}, {
+        api_key: config.MOVIEDB_TOKEN,
+        page,
+      }, params),
+    }))
+  ).then(res => res.reduce((sum, currentElem) => sum.concat(currentElem.data.results), []))
 
-  const cards = results.slice(0, 10).map(e => ({
-    title: e.title || e.name,
-    subtitle: e.overview,
-    imageUrl: `https://image.tmdb.org/t/p/w600_and_h900_bestv2${e.poster_path}`,
-    buttons: [
-      {
+}
+
+const apiResultToCarousselle = (results, kind) => {
+  const cards = results.shuffle()
+    .slice(0, 10)
+    .map(e => ({
+      title: e.title || e.name,
+      subtitle: e.overview,
+      imageUrl: `https://image.tmdb.org/t/p/w600_and_h900_bestv2${e.poster_path}`,
+      buttons: [{
         type: 'web_url',
-        value: `https://www.themoviedb.org/movie/${e.id}`,
+        value: `https://www.themoviedb.org/${kind}/${e.id}`,
         title: 'View More',
+      }],
+    }))
+
+  if (cards.length === 0) {
+    return [{
+      type: 'quickReplies',
+      content: {
+        title: 'Sorry, but I could not find any results for your request :(',
+        buttons: [{ title: 'Start over', value: 'Start over' }],
       },
-    ],
-  }));
+    }]
+  }
 
   const lastMessage = [
     'Here\'s what I found for you!',
@@ -71,16 +147,12 @@ function apiResultToCarousselle(results) {
       content: lastMessage.shuffle()[0],
     },
     { type: 'carousel', content: cards },
-    {
-      type: 'quickReplies',
-      content: {
-        title: 'You can change your criterias if you want to!',
-        buttons: [{ title: 'Start over', value: 'Start over' }],
-      },
-    },
   ];
 }
 
 module.exports = {
   discoverMovie,
+  discoverTv,
+  findMovieSimilarTo,
+  findShowSimilarTo,
 };
